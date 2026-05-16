@@ -1,0 +1,28 @@
+# Documentation
+*.md
+
+# Build outputs
+bin/
+obj/
+*.dll
+*.exe
+*.pdb
+
+# IDE and OS
+.DS_Store
+.vscode/
+.idea/
+*.user
+*.swp
+*.swo
+
+# NuGet
+*.nupkg
+*.nuspec
+
+# Build artifacts
+*.o
+*.so
+*.la
+*.a
+*.lib

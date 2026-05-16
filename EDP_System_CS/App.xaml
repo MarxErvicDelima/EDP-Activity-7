@@ -1,0 +1,91 @@
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:EDPSystem.Converters"
+             x:Class="EDPSystem.App">
+    
+    <Application.Resources>
+        <!-- Value Converters -->
+        <local:InverseBooleanConverter x:Key="InverseBooleanConverter"/>
+        <local:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+        
+        <!-- Icon and Font Resources -->
+        <FontFamily x:Key="AppFont">-apple-system, system-ui, Helvetica Neue, Arial</FontFamily>
+    </Application.Resources>
+
+    <Application.Styles>
+        <FluentTheme/>
+        
+        <!-- Global Styles -->
+        <Style Selector="Window">
+            <Setter Property="Background" Value="#020617"/>
+            <Setter Property="FontFamily" Value="-apple-system, system-ui, Helvetica Neue, Arial"/>
+        </Style>
+
+        <!-- Glassmorphism Card Style -->
+        <Style Selector="Border.GlassCard">
+            <Setter Property="Background" Value="#0F172A"/>
+            <Setter Property="BorderBrush" Value="#00F3FF"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="CornerRadius" Value="12"/>
+            <Setter Property="Padding" Value="20"/>
+            <Setter Property="Opacity" Value="0.85"/>
+        </Style>
+
+        <!-- Neon Text Style -->
+        <Style Selector="TextBlock.NeonText">
+            <Setter Property="Foreground" Value="#00F3FF"/>
+        </Style>
+
+        <!-- Header Text Style -->
+        <Style Selector="TextBlock.HeaderText">
+            <Setter Property="FontSize" Value="32"/>
+            <Setter Property="FontWeight" Value="Black"/>
+            <Setter Property="Foreground" Value="White"/>
+        </Style>
+
+        <!-- Subheader Text Style -->
+        <Style Selector="TextBlock.SubheaderText">
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Foreground" Value="SlateGray"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+        </Style>
+
+        <!-- Button Styles -->
+        <Style Selector="Button.NeonButton">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="#00F3FF"/>
+            <Setter Property="BorderBrush" Value="#00F3FF"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="12,8"/>
+            <Setter Property="CornerRadius" Value="8"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+        </Style>
+
+        <Style Selector="Button.NeonButton:pointerover">
+            <Setter Property="Background" Value="#1F00F3FF"/>
+            <Setter Property="Foreground" Value="White"/>
+        </Style>
+
+        <!-- TextBox Styles -->
+        <Style Selector="TextBox.NeonTextBox">
+            <Setter Property="Background" Value="#0F172A"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderBrush" Value="#00F3FF"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="12"/>
+            <Setter Property="CornerRadius" Value="8"/>
+        </Style>
+
+        <Style Selector="TextBox.NeonTextBox:focus">
+            <Setter Property="BorderBrush" Value="#BC13FE"/>
+        </Style>
+
+        <!-- ComboBox Styles -->
+        <Style Selector="ComboBox.NeonCombo">
+            <Setter Property="Background" Value="#0F172A"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderBrush" Value="#00F3FF"/>
+        </Style>
+
+    </Application.Styles>
+</Application>

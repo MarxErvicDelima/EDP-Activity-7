@@ -1,0 +1,70 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="EDPSystem.Views.LoginWindow"
+        Title="EDP Intelligence System - Login" 
+        Height="600" Width="800"
+        Background="#020617"
+        WindowStartupLocation="CenterScreen"
+        CanResize="False">
+    
+    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Width="400">
+        <!-- Logo/Title -->
+        <StackPanel Orientation="Horizontal" Margin="0,0,0,40" HorizontalAlignment="Center">
+            <Border Width="50" Height="50" CornerRadius="10" Background="#00F3FF" Margin="0,0,15,0"/>
+            <TextBlock Text="EDP GUI" FontSize="28" FontWeight="Bold" Foreground="White" VerticalAlignment="Center"/>
+        </StackPanel>
+
+        <!-- Main Title -->
+        <TextBlock Text="NEURAL INTERFACE" Classes="HeaderText" 
+                   TextAlignment="Center" Margin="0,0,0,10"/>
+        <TextBlock Text="Authentication Protocol Active" Classes="SubheaderText" 
+                   TextAlignment="Center" Margin="0,0,0,40"/>
+
+        <!-- Login Form -->
+        <TextBlock Text="Username/Email" Foreground="SlateGray" FontSize="11" FontWeight="Bold" Margin="0,0,0,5"/>
+        <TextBox x:Name="UsernameBox" Classes="NeonTextBox" 
+                 Margin="0,0,0,20" Height="40"
+                 Text="{Binding Username}"/>
+
+        <TextBlock Text="Password" Foreground="SlateGray" FontSize="11" FontWeight="Bold" Margin="0,0,0,5"/>
+        <TextBox x:Name="PasswordBox" Classes="NeonTextBox" 
+                 Margin="0,0,0,20" Height="40"
+                 Text="{Binding Password}"/>
+
+        <!-- Error Message -->
+        <TextBlock x:Name="ErrorMessageBlock" Text="{Binding ErrorMessage}" 
+                   Foreground="#FF006E" FontSize="11" 
+                   TextWrapping="Wrap" Margin="0,0,0,15" MinHeight="20"/>
+
+        <!-- Login Button -->
+        <Button x:Name="LoginButton" Content="AUTHENTICATE" 
+                Classes="NeonButton" Height="45"
+                Click="LoginButton_Click" Margin="0,0,0,15"/>
+
+        <!-- Password Recovery Link -->
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,15">
+            <TextBlock Text="Forgot your password? " Foreground="SlateGray" FontSize="10"/>
+            <Button x:Name="ForgotPasswordButton" Content="Click here" 
+                    Background="Transparent" Foreground="#00F3FF" Padding="0"
+                    Click="ForgotPasswordButton_Click" FontSize="10"
+                    Cursor="Hand"/>
+        </StackPanel>
+
+        <!-- Demo Text -->
+        <TextBlock Text="Demo Credentials: admin / admin" Foreground="SlateGray" FontSize="9" 
+                   TextAlignment="Center" Margin="0,20,0,0"/>
+        
+        <!-- Biometric Options (Visual Only) -->
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,30,0,0">
+            <Button Content="🔵 Fingerprint" Background="Transparent" Foreground="SlateGray" 
+                    Margin="10" Padding="10" FontSize="10"/>
+            <Button Content="👁️ Iris Scan" Background="Transparent" Foreground="SlateGray" 
+                    Margin="10" Padding="10" FontSize="10"/>
+        </StackPanel>
+
+        <!-- Loading Indicator -->
+        <TextBlock x:Name="LoadingText" Text="Connecting..." Foreground="#00F3FF" 
+                   TextAlignment="Center" Margin="0,20,0,0"
+                   IsVisible="{Binding IsLoading}"/>
+    </StackPanel>
+</Window>

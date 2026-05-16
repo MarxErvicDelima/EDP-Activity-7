@@ -1,0 +1,131 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="EDPSystem.Views.DashboardWindow"
+        Title="EDP Intelligence System - Dashboard" 
+        Height="720" Width="1280"
+        Background="#020617"
+        WindowStartupLocation="CenterScreen"
+        CanResize="True">
+    
+    <DockPanel LastChildFill="True" Margin="20">
+        <!-- Navigation Sidebar -->
+        <Border DockPanel.Dock="Left" Classes="GlassCard" Width="250" Margin="0,0,20,0">
+            <StackPanel Margin="0">
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,40">
+                    <Border Width="40" Height="40" CornerRadius="8" Background="#00F3FF" Margin="0,0,10,0"/>
+                    <TextBlock Text="EDP System" FontSize="16" FontWeight="Bold" Foreground="White" VerticalAlignment="Center"/>
+                </StackPanel>
+
+                <Button x:Name="DashboardBtn" Content="DASHBOARD" Background="Transparent" Foreground="#00F3FF" 
+                        Margin="0,10" FontWeight="Bold" FontSize="11" Click="DashboardBtn_Click"/>
+                <Button x:Name="ReportsBtn" Content="REPORTS" Background="Transparent" Foreground="SlateGray" 
+                        Margin="0,10" FontWeight="Bold" FontSize="11" Click="ReportsBtn_Click"/>
+                <Button x:Name="TransactionsBtn" Content="TRANSACTIONS" Background="Transparent" Foreground="SlateGray" 
+                        Margin="0,10" FontWeight="Bold" FontSize="11" Click="TransactionsBtn_Click"/>
+                <Button x:Name="UserMgmtBtn" Content="USER MANAGEMENT" Background="Transparent" Foreground="SlateGray" 
+                        Margin="0,10" FontWeight="Bold" FontSize="11" Click="UserMgmtBtn_Click"/>
+                <Button x:Name="AboutBtn" Content="SYSTEM INFO" Background="Transparent" Foreground="SlateGray" 
+                        Margin="0,10" FontWeight="Bold" FontSize="11" Click="AboutBtn_Click"/>
+
+                <Separator Margin="0,20" Height="1" Background="#33FFFFFF"/>
+
+                <Button x:Name="LogoutBtn" Content="LOGOUT" Background="Transparent" Foreground="#FF006E" 
+                        Margin="0,20" FontWeight="Bold" FontSize="11" Click="LogoutBtn_Click"/>
+            </StackPanel>
+        </Border>
+
+        <!-- Main Content -->
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- Header -->
+            <StackPanel Grid.Row="0" Margin="0,0,0,20">
+                <TextBlock Text="INTELLIGENCE DASHBOARD" Classes="HeaderText"/>
+                <TextBlock Text="BIO-DATA ENCRYPTION ACTIVE • NEURAL LINK SYNCHRONIZED" Classes="SubheaderText"/>
+            </StackPanel>
+
+            <!-- Stats Grid -->
+            <ItemsControl Grid.Row="1" ItemsSource="{Binding Stats}" Margin="0,0,0,20">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <UniformGrid Columns="3"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border Classes="GlassCard" Margin="10" Height="140">
+                            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                                <TextBlock Text="{Binding StatName}" Foreground="SlateGray" FontSize="10" HorizontalAlignment="Center" FontWeight="Bold"/>
+                                <TextBlock Text="{Binding StatValue}" FontSize="32" FontWeight="Black" Foreground="White" 
+                                           HorizontalAlignment="Center" Margin="0,5,0,0"/>
+                                <TextBlock Text="{Binding StatTrend}" Foreground="#00F3FF" 
+                                           FontSize="10" HorizontalAlignment="Center" FontWeight="Bold"/>
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+
+            <!-- Charts and Logs Section -->
+            <Grid Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Throughput Chart -->
+                <Border Grid.Column="0" Classes="GlassCard" Margin="0,0,10,0">
+                    <StackPanel>
+                        <TextBlock Text="Neural Throughput (24H)" Foreground="White" FontSize="14" FontWeight="Bold" Margin="0,0,0,10"/>
+                        <ItemsControl ItemsSource="{Binding ThroughputLogs}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Horizontal" Height="80" VerticalAlignment="Center" Spacing="1"/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Width="8" Background="#00F3FF" CornerRadius="2" VerticalAlignment="Bottom"
+                                            Height="{Binding DataRate}"/>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                        <TextBlock Text="Data Rate (Mbps)" Foreground="SlateGray" FontSize="9" Margin="0,10,0,0"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- System Logs -->
+                <Border Grid.Column="1" Classes="GlassCard" Margin="10,0,0,0">
+                    <StackPanel>
+                        <TextBlock Text="System Activity Log" Foreground="White" FontSize="14" FontWeight="Bold" Margin="0,0,0,10"/>
+                        <ListBox ItemsSource="{Binding SystemLogs}" Background="Transparent" Margin="0" MaxHeight="250">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Margin="0,5,0,5" Padding="10" Background="#0F172A" CornerRadius="8">
+                                        <StackPanel>
+                                            <TextBlock Text="{Binding LogTitle}" FontWeight="Bold" Foreground="#00F3FF"/>
+                                            <TextBlock Text="{Binding LogDesc}" Foreground="SlateGray" FontSize="10" Margin="0,3,0,0"/>
+                                            <TextBlock Text="{Binding LogTime, StringFormat='yyyy-MM-dd HH:mm'}" Foreground="Gray" FontSize="8" Margin="0,3,0,0"/>
+                                        </StackPanel>
+                                    </Border>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </Grid>
+
+        <!-- Loading Overlay -->
+        <Border Background="#80000000" IsVisible="{Binding IsLoading}" x:Name="LoadingOverlay" ZIndex="100">
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                <TextBlock Text="Loading data..." Foreground="#00F3FF" 
+                           FontSize="16" TextAlignment="Center" FontWeight="Bold"/>
+            </StackPanel>
+        </Border>
+    </DockPanel>
+</Window>

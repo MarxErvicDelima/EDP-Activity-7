@@ -1,0 +1,321 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="EDPSystem.Views.TransactionsWindow"
+        Title="Transaction Management" Height="800" Width="1400"
+        Background="#020617"
+        WindowStartupLocation="CenterScreen"
+        CanResize="True">
+    
+    <DockPanel Margin="20" LastChildFill="True">
+        <!-- Header -->
+        <StackPanel DockPanel.Dock="Top" Margin="0,0,0,20">
+            <TextBlock Text="TRANSACTION MANAGEMENT SYSTEM" Classes="HeaderText"/>
+            <TextBlock Text="BOOK BORROWING • SALES • INVENTORY MANAGEMENT" Classes="SubheaderText"/>
+        </StackPanel>
+
+        <!-- Main Content with Tabs -->
+        <TabControl DockPanel.Dock="Top" Background="Transparent" BorderThickness="0">
+            
+            <!-- Book Borrowing Tab -->
+            <TabItem Header="Book Borrowing" Padding="20,10">
+                <DockPanel>
+                    <!-- Add New Record Panel -->
+                    <Border DockPanel.Dock="Top" Classes="GlassCard" Margin="0,0,0,20" Padding="20">
+                        <StackPanel>
+                            <TextBlock Text="Add New Book Borrow Record" Foreground="#00F3FF" FontSize="12" FontWeight="Bold" Margin="0,0,0,10"/>
+                            <Grid ColumnDefinitions="200,200,200,200" RowDefinitions="Auto,Auto">
+                                <!-- Row 1 -->
+                                <StackPanel Grid.Row="0" Grid.Column="0">
+                                    <TextBlock Text="Borrower Name" Foreground="SlateGray" FontSize="10" FontWeight="Bold" Margin="0,0,0,5"/>
+                                    <TextBox x:Name="BorrowerNameBox" Classes="NeonTextBox" Height="35" Text="{Binding BorrowerName}"/>
+                                </StackPanel>
+                                
+                                <StackPanel Grid.Row="0" Grid.Column="1">
+                                    <TextBlock Text="Book Title" Foreground="SlateGray" FontSize="10" FontWeight="Bold" Margin="0,0,0,5"/>
+                                    <TextBox x:Name="BookTitleBox" Classes="NeonTextBox" Height="35" Text="{Binding BookTitle}"/>
+                                </StackPanel>
+
+                                <StackPanel Grid.Row="0" Grid.Column="2">
+                                    <TextBlock Text="ISBN" Foreground="SlateGray" FontSize="10" FontWeight="Bold" Margin="0,0,0,5"/>
+                                    <TextBox x:Name="IsbnBox" Classes="NeonTextBox" Height="35" Text="{Binding ISBN}"/>
+                                </StackPanel>
+
+                                <StackPanel Grid.Row="0" Grid.Column="3">
+                                    <TextBlock Text="Due Date" Foreground="SlateGray" FontSize="10" FontWeight="Bold" Margin="0,0,0,5"/>
+                                    <CalendarDatePicker SelectedDate="{Binding DueDate}"/>
+                                </StackPanel>
+
+                                <!-- Row 2 - Buttons -->
+                                <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4" Orientation="Horizontal" Spacing="10" Margin="0,15,0,0">
+                                    <Button Content="ADD RECORD" Classes="NeonButton" Click="AddBookBorrow_Click"/>
+                                    <Button Content="EXPORT TO EXCEL" Background="Transparent" Foreground="#00F3FF" 
+                                            BorderBrush="#00F3FF" BorderThickness="1" Padding="15,0" Click="ExportBookBorrows_Click"/>
+                                </StackPanel>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Data Grid -->
+                    <Border Classes="GlassCard">
+                        <StackPanel>
+                            <TextBlock Text="Book Borrow Records" Foreground="White" FontSize="12" FontWeight="Bold" Margin="0,0,0,10"/>
+                            
+                            <!-- Manual Data Grid Header -->
+                            <Border Background="#1F2937" CornerRadius="8" Margin="0,0,0,10" Padding="10">
+                                <Grid ColumnDefinitions="60,200,100,150,120,120,120,80">
+                                    <TextBlock Grid.Column="0" Text="ID" Foreground="#00F3FF" FontWeight="Bold" FontSize="10"/>
+                                    <TextBlock Grid.Column="1" Text="BOOK TITLE" Foreground="#00F3FF" FontWeight="Bold" FontSize="10"/>
+                                    <TextBlock Grid.Column="2" Text="ISBN" Foreground="#00F3FF" FontWeight="Bold" FontSize="10"/>
+                                    <TextBlock Grid.Column="3" Text="BORROWER" Foreground="#00F3FF" FontWeight="Bold" FontSize="10"/>
+                                    <TextBlock Grid.Column="4" Text="BORROW DATE" Foreground="#00F3FF" FontWeight="Bold" FontSize="10"/>
+                                    <TextBlock Grid.Column="5" Text="DUE DATE" Foreground="#00F3FF" FontWeight="Bold" FontSize="10"/>
+                                    <TextBlock Grid.Column="6" Text="STATUS" Foreground="#00F3FF" FontWeight="Bold" FontSize="10"/>
+                                    <TextBlock Grid.Column="7" Text="LATE FEE" Foreground="#00F3FF" FontWeight="Bold" FontSize="10"/>
+                                </Grid>
+                            </Border>
+
+                            <!-- Data Rows -->
+                            <ScrollViewer Height="350" VerticalScrollBarVisibility="Auto">
+                                <ItemsControl ItemsSource="{Binding BookBorrows}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Border Background="#0F172A" CornerRadius="6" Margin="0,5,0,5" Padding="10" BorderBrush="#33FFFFFF" BorderThickness="1">
+                                                <Grid ColumnDefinitions="60,200,100,150,120,120,120,80">
+                                                    <TextBlock Grid.Column="0" Text="{Binding BorrowID}" Foreground="White" VerticalAlignment="Center" FontSize="9"/>
+                                                    <TextBlock Grid.Column="1" Text="{Binding BookTitle}" Foreground="SlateGray" VerticalAlignment="Center" FontSize="9"/>
+                                                    <TextBlock Grid.Column="2" Text="{Binding ISBN}" Foreground="SlateGray" VerticalAlignment="Center" FontSize="9"/>
+                                                    <TextBlock Grid.Column="3" Text="{Binding BorrowerName}" Foreground="SlateGray" VerticalAlignment="Center" FontSize="9"/>
+                                                    <TextBlock Grid.Column="4" Text="{Binding BorrowDate, StringFormat='yyyy-MM-dd'}" Foreground="SlateGray" VerticalAlignment="Center" FontSize="9"/>
+                                                    <TextBlock Grid.Column="5" Text="{Binding DueDate, StringFormat='yyyy-MM-dd'}" Foreground="SlateGray" VerticalAlignment="Center" FontSize="9"/>
+                                                    <Border Grid.Column="6" Background="#1F2937" CornerRadius="4" Padding="5,3" Width="100" HorizontalAlignment="Center">
+                                                        <TextBlock Text="{Binding Status}" Foreground="#00F3FF" HorizontalAlignment="Center" FontSize="8" FontWeight="Bold"/>
+                                                    </Border>
+                                                    <TextBlock Grid.Column="7" Text="{Binding LateFee, StringFormat='${0:F2}'}" Foreground="SlateGray" VerticalAlignment="Center" FontSize="9"/>
+                                                </Grid>
+                                            </Border>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </ScrollViewer>
+
+                            <TextBlock x:Name="BookBorrowCountText" Text="0 records" Foreground="SlateGray" FontSize="10" Margin="0,10,0,0"/>
+                        </StackPanel>
+                    </Border>
+                </DockPanel>
+            </TabItem>
+
+            <!-- Sales Transactions Tab -->
+            <TabItem Header="Sales Transactions" Padding="20,10">
+                <DockPanel>
+                    <!-- Add New Record Panel -->
+                    <Border DockPanel.Dock="Top" Classes="GlassCard" Margin="0,0,0,20" Padding="20">
+                        <StackPanel>
+                            <TextBlock Text="Add New Sales Transaction" Foreground="#00F3FF" FontSize="12" FontWeight="Bold" Margin="0,0,0,10"/>
+                            <Grid ColumnDefinitions="160,160,160,100,100,120,160" RowDefinitions="Auto,Auto">
+                                <!-- Row 1 -->
+                                <StackPanel Grid.Row="0" Grid.Column="0">
+                                    <TextBlock Text="Invoice #" Foreground="SlateGray" FontSize="10" FontWeight="Bold" Margin="0,0,0,5"/>
+                                    <TextBox x:Name="InvoiceNumberBox" Classes="NeonTextBox" Height="35" Text="{Binding InvoiceNumber}"/>
+                                </StackPanel>
+
+                                <StackPanel Grid.Row="0" Grid.Column="1">
+                                    <TextBlock Text="Product Name" Foreground="SlateGray" FontSize="10" FontWeight="Bold" Margin="0,0,0,5"/>
+                                    <TextBox x:Name="ProductNameBox" Classes="NeonTextBox" Height="35" Text="{Binding ProductName}"/>
+                                </StackPanel>
+
+                                <StackPanel Grid.Row="0" Grid.Column="2">
+                                    <TextBlock Text="Customer Name" Foreground="SlateGray" FontSize="10" FontWeight="Bold" Margin="0,0,0,5"/>
+                                    <TextBox x:Name="CustomerNameBox" Classes="NeonTextBox" Height="35" Text="{Binding CustomerName}"/>
+                                </StackPanel>
+
+                                <StackPanel Grid.Row="0" Grid.Column="3">
+                                    <TextBlock Text="Qty" Foreground="SlateGray" FontSize="10" FontWeight="Bold" Margin="0,0,0,5"/>
+                                    <TextBox x:Name="QuantityBox" Classes="NeonTextBox" Height="35" Text="{Binding Quantity}"/>
+                                </StackPanel>
+
+                                <StackPanel Grid.Row="0" Grid.Column="4">
+                                    <TextBlock Text="Price" Foreground="SlateGray" FontSize="10" FontWeight="Bold" Margin="0,0,0,5"/>
+                                    <TextBox x:Name="PriceBox" Classes="NeonTextBox" Height="35" Text="{Binding UnitPrice}"/>
+                                </StackPanel>
+
+                                <StackPanel Grid.Row="0" Grid.Column="5">
+                                    <TextBlock Text="Payment" Foreground="SlateGray" FontSize="10" FontWeight="Bold" Margin="0,0,0,5"/>
+                                    <ComboBox x:Name="PaymentCombo" Classes="NeonCombo" Height="35">
+                                        <ComboBoxItem Content="Cash" IsSelected="True"/>
+                                        <ComboBoxItem Content="Card"/>
+                                        <ComboBoxItem Content="Cheque"/>
+                                    </ComboBox>
+                                </StackPanel>
+
+                                <StackPanel Grid.Row="0" Grid.Column="6">
+                                    <TextBlock Text="" Foreground="SlateGray" FontSize="10" FontWeight="Bold" Margin="0,0,0,5"/>
+                                    <TextBlock/>
+                                </StackPanel>
+
+                                <!-- Row 2 - Buttons -->
+                                <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="7" Orientation="Horizontal" Spacing="10" Margin="0,15,0,0">
+                                    <Button Content="ADD RECORD" Classes="NeonButton" Click="AddSalesTransaction_Click"/>
+                                    <Button Content="EXPORT TO EXCEL" Background="Transparent" Foreground="#00F3FF" 
+                                            BorderBrush="#00F3FF" BorderThickness="1" Padding="15,0" Click="ExportSalesTransactions_Click"/>
+                                </StackPanel>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Data Grid -->
+                    <Border Classes="GlassCard">
+                        <StackPanel>
+                            <TextBlock Text="Sales Transaction Records" Foreground="White" FontSize="12" FontWeight="Bold" Margin="0,0,0,10"/>
+                            
+                            <!-- Manual Data Grid Header -->
+                            <Border Background="#1F2937" CornerRadius="8" Margin="0,0,0,10" Padding="10">
+                                <Grid ColumnDefinitions="60,100,140,120,60,90,110,110,90">
+                                    <TextBlock Grid.Column="0" Text="TXN ID" Foreground="#00F3FF" FontWeight="Bold" FontSize="10"/>
+                                    <TextBlock Grid.Column="1" Text="INVOICE" Foreground="#00F3FF" FontWeight="Bold" FontSize="10"/>
+                                    <TextBlock Grid.Column="2" Text="PRODUCT" Foreground="#00F3FF" FontWeight="Bold" FontSize="10"/>
+                                    <TextBlock Grid.Column="3" Text="CUSTOMER" Foreground="#00F3FF" FontWeight="Bold" FontSize="10"/>
+                                    <TextBlock Grid.Column="4" Text="QTY" Foreground="#00F3FF" FontWeight="Bold" FontSize="10"/>
+                                    <TextBlock Grid.Column="5" Text="PRICE" Foreground="#00F3FF" FontWeight="Bold" FontSize="10"/>
+                                    <TextBlock Grid.Column="6" Text="TOTAL" Foreground="#00F3FF" FontWeight="Bold" FontSize="10"/>
+                                    <TextBlock Grid.Column="7" Text="DATE" Foreground="#00F3FF" FontWeight="Bold" FontSize="10"/>
+                                    <TextBlock Grid.Column="8" Text="STATUS" Foreground="#00F3FF" FontWeight="Bold" FontSize="10"/>
+                                </Grid>
+                            </Border>
+
+                            <!-- Data Rows -->
+                            <ScrollViewer Height="350" VerticalScrollBarVisibility="Auto">
+                                <ItemsControl ItemsSource="{Binding SalesTransactions}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Border Background="#0F172A" CornerRadius="6" Margin="0,5,0,5" Padding="10" BorderBrush="#33FFFFFF" BorderThickness="1">
+                                                <Grid ColumnDefinitions="60,100,140,120,60,90,110,110,90">
+                                                    <TextBlock Grid.Column="0" Text="{Binding TransactionID}" Foreground="White" VerticalAlignment="Center" FontSize="9"/>
+                                                    <TextBlock Grid.Column="1" Text="{Binding InvoiceNumber}" Foreground="SlateGray" VerticalAlignment="Center" FontSize="9"/>
+                                                    <TextBlock Grid.Column="2" Text="{Binding ProductName}" Foreground="SlateGray" VerticalAlignment="Center" FontSize="9"/>
+                                                    <TextBlock Grid.Column="3" Text="{Binding CustomerName}" Foreground="SlateGray" VerticalAlignment="Center" FontSize="9"/>
+                                                    <TextBlock Grid.Column="4" Text="{Binding Quantity}" Foreground="SlateGray" VerticalAlignment="Center" FontSize="9"/>
+                                                    <TextBlock Grid.Column="5" Text="{Binding UnitPrice, StringFormat='${0:F2}'}" Foreground="SlateGray" VerticalAlignment="Center" FontSize="9"/>
+                                                    <TextBlock Grid.Column="6" Text="{Binding TotalAmount, StringFormat='${0:F2}'}" Foreground="#00F3FF" VerticalAlignment="Center" FontSize="9" FontWeight="Bold"/>
+                                                    <TextBlock Grid.Column="7" Text="{Binding TransactionDate, StringFormat='yyyy-MM-dd'}" Foreground="SlateGray" VerticalAlignment="Center" FontSize="9"/>
+                                                    <Border Grid.Column="8" Background="#1F2937" CornerRadius="4" Padding="5,3" Width="80" HorizontalAlignment="Center">
+                                                        <TextBlock Text="{Binding Status}" Foreground="#00F3FF" HorizontalAlignment="Center" FontSize="8" FontWeight="Bold"/>
+                                                    </Border>
+                                                </Grid>
+                                            </Border>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </ScrollViewer>
+
+                            <TextBlock x:Name="SalesCountText" Text="0 records" Foreground="SlateGray" FontSize="10" Margin="0,10,0,0"/>
+                        </StackPanel>
+                    </Border>
+                </DockPanel>
+            </TabItem>
+
+            <!-- Inventory Count Tab -->
+            <TabItem Header="Inventory Counts" Padding="20,10">
+                <DockPanel>
+                    <!-- Add New Record Panel -->
+                    <Border DockPanel.Dock="Top" Classes="GlassCard" Margin="0,0,0,20" Padding="20">
+                        <StackPanel>
+                            <TextBlock Text="Add New Inventory Count Record" Foreground="#00F3FF" FontSize="12" FontWeight="Bold" Margin="0,0,0,10"/>
+                            <Grid ColumnDefinitions="150,150,120,120,120,150,150" RowDefinitions="Auto,Auto">
+                                <!-- Row 1 -->
+                                <StackPanel Grid.Row="0" Grid.Column="0">
+                                    <TextBlock Text="Item Code" Foreground="SlateGray" FontSize="10" FontWeight="Bold" Margin="0,0,0,5"/>
+                                    <TextBox x:Name="ItemCodeBox" Classes="NeonTextBox" Height="35" Text="{Binding ItemCode}"/>
+                                </StackPanel>
+
+                                <StackPanel Grid.Row="0" Grid.Column="1">
+                                    <TextBlock Text="Item Name" Foreground="SlateGray" FontSize="10" FontWeight="Bold" Margin="0,0,0,5"/>
+                                    <TextBox x:Name="ItemNameBox" Classes="NeonTextBox" Height="35" Text="{Binding ItemName}"/>
+                                </StackPanel>
+
+                                <StackPanel Grid.Row="0" Grid.Column="2">
+                                    <TextBlock Text="Physical Count" Foreground="SlateGray" FontSize="10" FontWeight="Bold" Margin="0,0,0,5"/>
+                                    <TextBox x:Name="PhysicalCountBox" Classes="NeonTextBox" Height="35" Text="{Binding PhysicalCount}"/>
+                                </StackPanel>
+
+                                <StackPanel Grid.Row="0" Grid.Column="3">
+                                    <TextBlock Text="System Count" Foreground="SlateGray" FontSize="10" FontWeight="Bold" Margin="0,0,0,5"/>
+                                    <TextBox x:Name="SystemCountBox" Classes="NeonTextBox" Height="35" Text="{Binding SystemCount}"/>
+                                </StackPanel>
+
+                                <StackPanel Grid.Row="0" Grid.Column="4">
+                                    <TextBlock Text="Counted By" Foreground="SlateGray" FontSize="10" FontWeight="Bold" Margin="0,0,0,5"/>
+                                    <TextBox x:Name="CountedByBox" Classes="NeonTextBox" Height="35" Text="{Binding CountedBy}"/>
+                                </StackPanel>
+
+                                <StackPanel Grid.Row="0" Grid.Column="5">
+                                    <TextBlock Text="Location" Foreground="SlateGray" FontSize="10" FontWeight="Bold" Margin="0,0,0,5"/>
+                                    <TextBox x:Name="LocationBox" Classes="NeonTextBox" Height="35" Text="{Binding Location}"/>
+                                </StackPanel>
+
+                                <StackPanel Grid.Row="0" Grid.Column="6">
+                                    <TextBlock Text="" Foreground="SlateGray" FontSize="10" FontWeight="Bold" Margin="0,0,0,5"/>
+                                    <TextBlock/>
+                                </StackPanel>
+
+                                <!-- Row 2 - Buttons -->
+                                <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="7" Orientation="Horizontal" Spacing="10" Margin="0,15,0,0">
+                                    <Button Content="ADD RECORD" Classes="NeonButton" Click="AddInventoryCount_Click"/>
+                                    <Button Content="EXPORT TO EXCEL" Background="Transparent" Foreground="#00F3FF" 
+                                            BorderBrush="#00F3FF" BorderThickness="1" Padding="15,0" Click="ExportInventoryCounts_Click"/>
+                                </StackPanel>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Data Grid -->
+                    <Border Classes="GlassCard">
+                        <StackPanel>
+                            <TextBlock Text="Inventory Count Records" Foreground="White" FontSize="12" FontWeight="Bold" Margin="0,0,0,10"/>
+                            
+                            <!-- Manual Data Grid Header -->
+                            <Border Background="#1F2937" CornerRadius="8" Margin="0,0,0,10" Padding="10">
+                                <Grid ColumnDefinitions="60,80,140,100,100,80,120,100,100">
+                                    <TextBlock Grid.Column="0" Text="ID" Foreground="#00F3FF" FontWeight="Bold" FontSize="10"/>
+                                    <TextBlock Grid.Column="1" Text="CODE" Foreground="#00F3FF" FontWeight="Bold" FontSize="10"/>
+                                    <TextBlock Grid.Column="2" Text="ITEM NAME" Foreground="#00F3FF" FontWeight="Bold" FontSize="10"/>
+                                    <TextBlock Grid.Column="3" Text="PHYSICAL" Foreground="#00F3FF" FontWeight="Bold" FontSize="10"/>
+                                    <TextBlock Grid.Column="4" Text="SYSTEM" Foreground="#00F3FF" FontWeight="Bold" FontSize="10"/>
+                                    <TextBlock Grid.Column="5" Text="VAR" Foreground="#00F3FF" FontWeight="Bold" FontSize="10"/>
+                                    <TextBlock Grid.Column="6" Text="COUNT DATE" Foreground="#00F3FF" FontWeight="Bold" FontSize="10"/>
+                                    <TextBlock Grid.Column="7" Text="COUNTED BY" Foreground="#00F3FF" FontWeight="Bold" FontSize="10"/>
+                                    <TextBlock Grid.Column="8" Text="LOCATION" Foreground="#00F3FF" FontWeight="Bold" FontSize="10"/>
+                                </Grid>
+                            </Border>
+
+                            <!-- Data Rows -->
+                            <ScrollViewer Height="350" VerticalScrollBarVisibility="Auto">
+                                <ItemsControl ItemsSource="{Binding InventoryCounts}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Border Background="#0F172A" CornerRadius="6" Margin="0,5,0,5" Padding="10" BorderBrush="#33FFFFFF" BorderThickness="1">
+                                                <Grid ColumnDefinitions="60,80,140,100,100,80,120,100,100">
+                                                    <TextBlock Grid.Column="0" Text="{Binding CountID}" Foreground="White" VerticalAlignment="Center" FontSize="9"/>
+                                                    <TextBlock Grid.Column="1" Text="{Binding ItemCode}" Foreground="SlateGray" VerticalAlignment="Center" FontSize="9"/>
+                                                    <TextBlock Grid.Column="2" Text="{Binding ItemName}" Foreground="SlateGray" VerticalAlignment="Center" FontSize="9"/>
+                                                    <TextBlock Grid.Column="3" Text="{Binding PhysicalCount}" Foreground="SlateGray" VerticalAlignment="Center" FontSize="9" HorizontalAlignment="Right" Margin="0,0,10,0"/>
+                                                    <TextBlock Grid.Column="4" Text="{Binding SystemCount}" Foreground="SlateGray" VerticalAlignment="Center" FontSize="9" HorizontalAlignment="Right" Margin="0,0,10,0"/>
+                                                    <TextBlock Grid.Column="5" Text="{Binding Variance}" Foreground="#FF6B6B" VerticalAlignment="Center" FontSize="9" FontWeight="Bold" HorizontalAlignment="Right" Margin="0,0,10,0"/>
+                                                    <TextBlock Grid.Column="6" Text="{Binding CountDate, StringFormat='yyyy-MM-dd'}" Foreground="SlateGray" VerticalAlignment="Center" FontSize="9"/>
+                                                    <TextBlock Grid.Column="7" Text="{Binding CountedBy}" Foreground="SlateGray" VerticalAlignment="Center" FontSize="9"/>
+                                                    <TextBlock Grid.Column="8" Text="{Binding Location}" Foreground="SlateGray" VerticalAlignment="Center" FontSize="9"/>
+                                                </Grid>
+                                            </Border>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </ScrollViewer>
+
+                            <TextBlock x:Name="InventoryCountText" Text="0 records" Foreground="SlateGray" FontSize="10" Margin="0,10,0,0"/>
+                        </StackPanel>
+                    </Border>
+                </DockPanel>
+            </TabItem>
+
+        </TabControl>
+    </DockPanel>
+</Window>

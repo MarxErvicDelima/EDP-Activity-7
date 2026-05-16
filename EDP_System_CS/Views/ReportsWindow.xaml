@@ -1,0 +1,110 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="EDPSystem.Views.ReportsWindow"
+        Title="Intelligence Reports" Height="700" Width="1100"
+        Background="#020617"
+        WindowStartupLocation="CenterScreen"
+        CanResize="True">
+    
+    <DockPanel Margin="20">
+        <!-- Header -->
+        <StackPanel DockPanel.Dock="Top" Margin="0,0,0,20">
+            <TextBlock Text="INTELLIGENCE REPORTS" Classes="HeaderText"/>
+            <TextBlock Text="TEMPORAL ANALYSIS &amp; DATA BATCHING" Classes="SubheaderText"/>
+        </StackPanel>
+
+        <!-- Filter Panel -->
+        <Border DockPanel.Dock="Top" Classes="GlassCard" Margin="0,0,0,20">
+            <StackPanel Orientation="Horizontal" Spacing="20">
+                <!-- Priority Filter -->
+                <StackPanel Width="120">
+                    <TextBlock Text="Priority" Foreground="SlateGray" FontSize="10" FontWeight="Bold" Margin="0,0,0,5"/>
+                    <ComboBox x:Name="PriorityCombo" Classes="NeonCombo" Height="35" Padding="10">
+                        <ComboBoxItem Content="ALL" IsSelected="True"/>
+                        <ComboBoxItem Content="CRITICAL"/>
+                        <ComboBoxItem Content="HIGH"/>
+                        <ComboBoxItem Content="MEDIUM"/>
+                        <ComboBoxItem Content="LOW"/>
+                    </ComboBox>
+                </StackPanel>
+
+                <!-- Date From -->
+                <StackPanel Width="140">
+                    <TextBlock Text="Date From" Foreground="SlateGray" FontSize="10" FontWeight="Bold" Margin="0,0,0,5"/>
+                    <CalendarDatePicker x:Name="DateFromPicker"/>
+                </StackPanel>
+
+                <!-- Date To -->
+                <StackPanel Width="140">
+                    <TextBlock Text="Date To" Foreground="SlateGray" FontSize="10" FontWeight="Bold" Margin="0,0,0,5"/>
+                    <CalendarDatePicker x:Name="DateToPicker"/>
+                </StackPanel>
+
+                <!-- Buttons -->
+                <Button Content="SEARCH" Classes="NeonButton" 
+                        Padding="15,0" VerticalAlignment="Bottom" Click="SearchButton_Click"/>
+                <Button Content="EXPORT JSON" Background="Transparent" Foreground="#BC13FE" 
+                        BorderBrush="#BC13FE" BorderThickness="1" Padding="15,0" 
+                        VerticalAlignment="Bottom" Click="ExportJsonButton_Click"/>
+                <Button Content="EXPORT CSV" Background="Transparent" Foreground="#BC13FE" 
+                        BorderBrush="#BC13FE" BorderThickness="1" Padding="15,0"
+                        VerticalAlignment="Bottom" Click="ExportCsvButton_Click"/>
+            </StackPanel>
+        </Border>
+
+        <!-- Reports Table -->
+        <Border Classes="GlassCard">
+            <StackPanel>
+                <TextBlock Text="Batch Results" Foreground="White" FontSize="14" FontWeight="Bold" Margin="0,0,0,10"/>
+                
+                <!-- Data Grid Header -->
+                <Border Background="#1F2937" CornerRadius="8" Margin="0,0,0,10" Padding="10">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="150"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="150"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="BATCH ID" Foreground="#00F3FF" FontWeight="Bold" FontSize="10"/>
+                        <TextBlock Grid.Column="1" Text="SOURCE" Foreground="#00F3FF" FontWeight="Bold" FontSize="10"/>
+                        <TextBlock Grid.Column="2" Text="TYPE" Foreground="#00F3FF" FontWeight="Bold" FontSize="10"/>
+                        <TextBlock Grid.Column="3" Text="PRIORITY" Foreground="#00F3FF" FontWeight="Bold" FontSize="10"/>
+                        <TextBlock Grid.Column="4" Text="CREATED AT" Foreground="#00F3FF" FontWeight="Bold" FontSize="10"/>
+                    </Grid>
+                </Border>
+
+                <!-- Reports List -->
+                <ScrollViewer Height="400" VerticalScrollBarVisibility="Auto">
+                    <ItemsControl ItemsSource="{Binding Reports}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border Background="#0F172A" CornerRadius="6" Margin="0,5,0,5" Padding="10" BorderBrush="#33FFFFFF" BorderThickness="1">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="100"/>
+                                            <ColumnDefinition Width="150"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="100"/>
+                                            <ColumnDefinition Width="150"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Column="0" Text="{Binding BatchId}" Foreground="White" VerticalAlignment="Center"/>
+                                        <TextBlock Grid.Column="1" Text="{Binding Source}" Foreground="SlateGray" VerticalAlignment="Center"/>
+                                        <TextBlock Grid.Column="2" Text="INTEL_BATCH" Foreground="SlateGray" VerticalAlignment="Center"/>
+                                        <Border Grid.Column="3" Background="#1F2937" CornerRadius="4" Padding="5,3" Width="80" HorizontalAlignment="Center">
+                                            <TextBlock Text="{Binding Priority}" Foreground="#00F3FF" HorizontalAlignment="Center" FontSize="9" FontWeight="Bold"/>
+                                        </Border>
+                                        <TextBlock Grid.Column="4" Text="{Binding CreatedAt, StringFormat='yyyy-MM-dd HH:mm'}" Foreground="SlateGray" VerticalAlignment="Center" FontSize="9"/>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
+
+                <TextBlock x:Name="ReportCountText" Text="0 reports" Foreground="SlateGray" FontSize="10" Margin="0,10,0,0"/>
+            </StackPanel>
+        </Border>
+    </DockPanel>
+</Window>

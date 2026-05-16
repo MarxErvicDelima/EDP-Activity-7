@@ -1,0 +1,114 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="EDPSystem.Views.RecoveryWindow"
+        Title="Password Recovery - EDP Intelligence System" 
+        Height="500" Width="600"
+        Background="#020617"
+        WindowStartupLocation="CenterScreen"
+        CanResize="False">
+    
+    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Width="450">
+        <!-- Header -->
+        <StackPanel Orientation="Horizontal" Margin="0,0,0,30" HorizontalAlignment="Center">
+            <TextBlock Text="🔐" FontSize="24" Margin="0,0,10,0"/>
+            <TextBlock Text="PASSWORD RECOVERY" FontSize="20" FontWeight="Bold" Foreground="#00F3FF"/>
+        </StackPanel>
+
+        <!-- Step 1: Email Entry -->
+        <Border Background="#0F172A" CornerRadius="8" Padding="20" Margin="0,0,0,20" 
+                BorderBrush="#00F3FF" BorderThickness="1" 
+                IsVisible="{Binding IsStep1}">
+            <StackPanel>
+                <TextBlock Text="Step 1: Verify Your Email" Foreground="#00F3FF" 
+                           FontSize="14" FontWeight="Bold" Margin="0,0,0,15"/>
+                <TextBlock Text="Enter the email address associated with your account" 
+                           Foreground="SlateGray" FontSize="11" Margin="0,0,0,15"/>
+                
+                <TextBlock Text="Email Address" Foreground="SlateGray" FontSize="11" 
+                           FontWeight="Bold" Margin="0,0,0,5"/>
+                <TextBox x:Name="EmailBox" Height="40" Margin="0,0,0,15"
+                         Background="#0F172A" Foreground="White"
+                         BorderBrush="#00F3FF" BorderThickness="1" Padding="10"
+                         Text="{Binding Email}"/>
+                
+                <TextBlock x:Name="ErrorMessageStep1" Text="{Binding ErrorMessage}" 
+                           Foreground="#FF006E" FontSize="10" TextWrapping="Wrap"
+                           Margin="0,0,0,15" MinHeight="15"/>
+                
+                <Button x:Name="SendCodeButton" Content="SEND VERIFICATION CODE" 
+                        Background="#00F3FF" Foreground="#020617" 
+                        FontWeight="Bold" Height="40" Margin="0,0,0,0"
+                        IsEnabled="{Binding !IsProcessing}"/>
+            </StackPanel>
+        </Border>
+
+        <!-- Step 2: Code Verification -->
+        <Border Background="#0F172A" CornerRadius="8" Padding="20" Margin="0,0,0,20" 
+                BorderBrush="#BC13FE" BorderThickness="1" 
+                IsVisible="{Binding IsStep2}">
+            <StackPanel>
+                <TextBlock Text="Step 2: Verify Your Code" Foreground="#BC13FE" 
+                           FontSize="14" FontWeight="Bold" Margin="0,0,0,10"/>
+                <TextBlock Text="{Binding StatusMessage}" Foreground="#00F3FF" 
+                           FontSize="10" Margin="0,0,0,15" TextWrapping="Wrap"/>
+                
+                <TextBlock Text="Verification Code" Foreground="SlateGray" FontSize="11" 
+                           FontWeight="Bold" Margin="0,0,0,5"/>
+                <TextBox x:Name="CodeBox" Height="40" Margin="0,0,0,15"
+                         Background="#0F172A" Foreground="White"
+                         BorderBrush="#BC13FE" BorderThickness="1" Padding="10"
+                         Text="{Binding VerificationCode}"/>
+                
+                <TextBlock x:Name="ErrorMessageStep2" Text="{Binding ErrorMessage}" 
+                           Foreground="#FF006E" FontSize="10" TextWrapping="Wrap"
+                           Margin="0,0,0,15" MinHeight="15"/>
+                
+                <Button x:Name="VerifyCodeButton" Content="VERIFY CODE" 
+                        Background="#BC13FE" Foreground="White" 
+                        FontWeight="Bold" Height="40"
+                        IsEnabled="{Binding !IsProcessing}"/>
+            </StackPanel>
+        </Border>
+
+        <!-- Step 3: New Password -->
+        <Border Background="#0F172A" CornerRadius="8" Padding="20" Margin="0,0,0,20" 
+                BorderBrush="#FF006E" BorderThickness="1" 
+                IsVisible="{Binding IsStep3}">
+            <StackPanel>
+                <TextBlock Text="Step 3: Set New Password" Foreground="#FF006E" 
+                           FontSize="14" FontWeight="Bold" Margin="0,0,0,10"/>
+                <TextBlock Text="{Binding StatusMessage}" Foreground="#00F3FF" 
+                           FontSize="10" Margin="0,0,0,15" TextWrapping="Wrap"/>
+                
+                <TextBlock Text="New Password" Foreground="SlateGray" FontSize="11" 
+                           FontWeight="Bold" Margin="0,0,0,5"/>
+                <TextBox x:Name="NewPasswordBox" Height="40" Margin="0,0,0,15"
+                         Background="#0F172A" Foreground="White"
+                         BorderBrush="#FF006E" BorderThickness="1" Padding="10"
+                         Text="{Binding NewPassword}"/>
+                
+                <TextBlock Text="Confirm Password" Foreground="SlateGray" FontSize="11" 
+                           FontWeight="Bold" Margin="0,0,0,5"/>
+                <TextBox x:Name="ConfirmPasswordBox" Height="40" Margin="0,0,0,15"
+                         Background="#0F172A" Foreground="White"
+                         BorderBrush="#FF006E" BorderThickness="1" Padding="10"
+                         Text="{Binding ConfirmPassword}"/>
+                
+                <TextBlock x:Name="ErrorMessageStep3" Text="{Binding ErrorMessage}" 
+                           Foreground="#FF006E" FontSize="10" TextWrapping="Wrap"
+                           Margin="0,0,0,15" MinHeight="15"/>
+                
+                <Button x:Name="ResetPasswordButton" Content="RESET PASSWORD" 
+                        Background="#FF006E" Foreground="White" 
+                        FontWeight="Bold" Height="40"
+                        IsEnabled="{Binding !IsProcessing}"/>
+            </StackPanel>
+        </Border>
+
+        <!-- Cancel Button -->
+        <Button x:Name="CancelButton" Content="← Back to Login" 
+                Background="Transparent" Foreground="SlateGray" 
+                BorderBrush="SlateGray" BorderThickness="1"
+                Height="40" Margin="0,10,0,0"/>
+    </StackPanel>
+</Window>
